@@ -1,8 +1,8 @@
 /*
 * @Author: csxiaoyao
 * @Date:   2017-04-23 11:27:11
-* @Last Modified by:   csxiaoyao
-* @Last Modified time: 2017-04-23 14:45:41
+* @Last Modified by:   sunshine
+* @Last Modified time: 2017-05-07 20:48:01
  */
 /**
  * Go内置关键字和注释方法、Go程序的一般结构、包的导入、package别名与省略调用、可见性规则
@@ -55,7 +55,7 @@ type cs struct{}
 // 接口声明
 type sun interface{}
 
-// 程序入口
+// 程序入口（如果有 init() 函数则先执行该函数）
 func main() {
 
 	/*
