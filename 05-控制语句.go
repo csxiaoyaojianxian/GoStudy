@@ -2,7 +2,7 @@
 * @Author: csxiaoyao
 * @Date:   2017-04-23 16:36:54
 * @Last Modified by:   csxiaoyao
-* @Last Modified time: 2017-05-07 19:39:12
+* @Last Modified time: 2017-05-08 19:39:51
  */
 /**
  * 基础知识补充（指针、递增递减语句）、if判断语句、for循环语句、switch选择语句、跳转语句
@@ -18,6 +18,7 @@ func main() {
 		不能进行指针运算
 		操作符 & 取变量地址，使用 * 通过指针间接访问目标对象
 		默认值为 nil 而非 NULL
+
 
 		【递增递减语句】
 		++ 、 -- 作为语句而非表达式
