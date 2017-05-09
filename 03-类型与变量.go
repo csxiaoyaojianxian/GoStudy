@@ -2,7 +2,7 @@
 * @Author: csxiaoyao
 * @Date:   2017-04-23 11:57:22
 * @Last Modified by:   csxiaoyao
-* @Last Modified time: 2017-05-08 19:02:02
+* @Last Modified time: 2017-05-10 01:50:28
  */
 /**
  * 基本类型、类型零值、类型别名、变量的声明与赋值、类型转换
@@ -89,6 +89,7 @@ func main() {
 	   值类型默认值：0
 	   布尔型默认值：false
 	   字符串默认值：""
+	   pointer默认值：nil
 
 	*/
 

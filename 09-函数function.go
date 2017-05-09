@@ -2,7 +2,7 @@
 * @Author: csxiaoyao
 * @Date:   2017-04-23 22:09:37
 * @Last Modified by:   csxiaoyao
-* @Last Modified time: 2017-04-24 11:13:08
+* @Last Modified time: 2017-05-10 01:39:25
  */
 /**
  * 函数概述、函数的定义与使用、不定长变参、传递值类型和引用类型、匿名函数与闭包、defer 用法、panic 与 recover
@@ -45,6 +45,14 @@ func closure(x int) func(int) int {
 	}
 }
 
+func closure2() func() int {
+	i := 0
+	return func() int {
+		i += 1
+		return i
+	}
+}
+
 // panic
 func G() {
 	fmt.Println("G")
@@ -72,7 +80,7 @@ func main() {
 	F(&a)
 	fmt.Println(a) // 2
 
-	// 【匿名函数】
+	// 【匿名函数、声明函数变量】
 	b := func() {
 		fmt.Println("function")
 	}
@@ -81,6 +89,16 @@ func main() {
 	// 【闭包】
 	f := closure(10)
 	fmt.Println(f(1)) // 11
+	// nextNumber 为一个函数，函数 i 为 0
+	nextNumber := closure2()
+	// 调用 nextNumber 函数，i 变量自增 1 并返回
+	fmt.Println(nextNumber()) // 1
+	fmt.Println(nextNumber()) // 2
+	fmt.Println(nextNumber()) // 3
+	// 创建新的函数 nextNumber1
+	nextNumber1 := closure2()
+	fmt.Println(nextNumber1()) // 1
+	fmt.Println(nextNumber1()) // 2
 
 	// 【defer】
 	// 按照调用顺序的相反顺序执行，即使函数发生严重错误也会执行，支持匿名函数的调用

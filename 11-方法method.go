@@ -2,7 +2,7 @@
 * @Author: sunshine
 * @Date:   2017-04-24 21:59:00
 * @Last Modified by:   csxiaoyao
-* @Last Modified time: 2017-04-25 00:06:11
+* @Last Modified time: 2017-05-10 01:44:15
  */
 /**
  * 方法的声明与使用、类型别名与方法、Method Value 与 Method Expression、方法名称冲突与字段访问权限
@@ -17,6 +17,11 @@ Receiver 可以是类型的值或者指针
 不存在方法重载
 可以使用值或指针来调用方法，编译器会自动完成转换
 方法可以调用结构中的非公开字段
+
+func (variable_name variable_data_type) function_name() [return_type]{
+   /* 函数体*/
+}
+
 */
 type A struct {
 	Name string

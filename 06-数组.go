@@ -2,7 +2,7 @@
 * @Author: csxiaoyao
 * @Date:   2017-04-23 18:46:01
 * @Last Modified by:   csxiaoyao
-* @Last Modified time: 2017-04-23 20:48:41
+* @Last Modified time: 2017-05-10 02:00:08
  */
 /**
  * array的定义、指向数组的指针和指针数组、数组之间的比较、使用new创建数组、多维数组、冒泡排序
@@ -20,10 +20,11 @@ func main() {
 	   数组之间可用==或!=比较，但不可使用<或>
 
 	*/
-	var a [2]string                 // [ ]
-	b := [2]int{1, 1}               // [1 1]
-	c := [2]int{1}                  // [1 0]
-	d := [20]int{19: 1}             // 索引 [0 0 … 0 1]
+	var a [2]string     // [ ]
+	b := [2]int{1, 1}   // [1 1]
+	c := [2]int{1}      // [1 0]
+	d := [20]int{19: 1} // 索引 [0 0 … 0 1]
+	// 忽略个数，根据初始化值数量判断，若出现索引，取最大索引
 	e := [...]int{1, 2, 3, 4, 5}    // [1 2 3 4 5]
 	f := [...]int{0: 1, 1: 2, 2: 3} // [1 2 3]
 	g := [...]int{19: 1}            // 长度为20 [0 0 … 0 1]
@@ -34,6 +35,18 @@ func main() {
 	fmt.Println(e)
 	fmt.Println(f)
 	fmt.Println(g)
+
+	/*
+	 	【向函数传递数组】
+	*/
+	// void myFunction(param [10]int)
+	// {
+	//
+	// }
+	// void myFunction(param []int)
+	// {
+	// 
+	// }
 
 	/*
 		【指向数组的指针和指针数组】
@@ -53,9 +66,11 @@ func main() {
 	fmt.Println(k) // &[0 1 0 0 0 0 0 0 0 0]
 
 	// 【多维数组】
+	// var variable_name [SIZE1][SIZE2]...[SIZEN] variable_type
 	l := [2][3]int{
 		{1: 1},
-		{2, 2, 2}}
+		{2, 2, 2}
+	}
 	fmt.Println(l) // [[0 1 0] [2 2 2]]
 
 	// 【冒泡排序】

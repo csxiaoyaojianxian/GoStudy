@@ -1,8 +1,8 @@
 /*
 * @Author: csxiaoyao
 * @Date:   2017-04-23 11:27:11
-* @Last Modified by:   sunshine
-* @Last Modified time: 2017-05-07 20:48:01
+* @Last Modified by:   csxiaoyao
+* @Last Modified time: 2017-05-10 01:48:22
  */
 /**
  * Go内置关键字和注释方法、Go程序的一般结构、包的导入、package别名与省略调用、可见性规则
@@ -81,6 +81,9 @@ func main() {
 	   使用 大小写 决定该 常量、变量、类型、接口、结构、函数 是否可被外部包调用
 	   函数名首字母 小写 即为 private
 	   函数名首字母 大写 即为 public
+
+	   【作用域】
+	   作用域为已声明标识符所表示的常量、类型、变量、函数或包在源代码中的作用范围
 
 	*/
 	// fmt.Println(name)
