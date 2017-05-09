@@ -2,7 +2,7 @@
 * @Author: csxiaoyao
 * @Date:   2017-04-23 16:36:54
 * @Last Modified by:   csxiaoyao
-* @Last Modified time: 2017-05-08 19:39:51
+* @Last Modified time: 2017-05-08 20:11:09
  */
 /**
  * 基础知识补充（指针、递增递减语句）、if判断语句、for循环语句、switch选择语句、跳转语句
@@ -41,6 +41,62 @@ func main() {
 	}
 
 	/*
+		【switch】
+		选择语句switch
+		可以使用任何类型或表达式作为条件语句
+		* 不需要写break，一旦条件符合自动终止
+		如希望继续执行下一个case，需使用fallthrough语句
+		支持一个初始化表达式（可以是并行方式），右侧需跟分号
+		左大括号必须和条件语句在同一行
+	*/
+	a = 2
+	switch a {
+	case 0:
+		fmt.Println("a=0")
+		fallthrough
+	case 1, 2, 3:
+		fmt.Println("a=1 || a=2 || a=3")
+	default:
+		fmt.Println("none")
+	}
+
+	switch a := 1; {
+	case a >= 0:
+		fmt.Println("a>=0")
+		fallthrough // a>=0 a>=1
+	case a >= 1:
+		fmt.Println("a>=1")
+	default:
+		fmt.Println("none")
+	}
+
+	a = 2
+	switch {
+	case a >= 0:
+		fmt.Println("a>=0")
+		fallthrough // a>=0 a>=1
+	case a >= 1:
+		fmt.Println("a>=1")
+	}
+
+	// Type Switch
+	var x interface{}
+	switch i := x.(type) {
+	case nil:
+		fmt.Printf(" x 的类型 :%T", i)
+	case int:
+		fmt.Printf(" x 是 int 型")
+	case float64:
+		fmt.Printf(" x 是 float64 型")
+	case func(int) float64:
+		fmt.Printf(" x 是 func(int) 型")
+	case bool, string:
+		fmt.Printf(" x 是 bool 或 string 型")
+	default:
+		fmt.Printf("未知型")
+	}
+
+	/*
 		【for循环】
 	*/
 	a = 1
@@ -58,36 +114,6 @@ func main() {
 	}
 	for a = 1; a < 3; a++ {
 		fmt.Println(a) // 1 2
-	}
-
-	/*
-		【switch】
-		选择语句switch
-		可以使用任何类型或表达式作为条件语句
-		不需要写break，一旦条件符合自动终止
-		如希望继续执行下一个case，需使用fallthrough语句
-		支持一个初始化表达式（可以是并行方式），右侧需跟分号
-		左大括号必须和条件语句在同一行
-	*/
-	a = 1
-	switch a {
-	case 0:
-		fmt.Println("a=0")
-		fallthrough
-	case 1:
-		fmt.Println("a=1")
-	default:
-		fmt.Println("none")
-	}
-
-	switch a := 1; {
-	case a >= 0:
-		fmt.Println("a>=0")
-		fallthrough // a>=0 a>=1
-	case a >= 1:
-		fmt.Println("a>=1")
-	default:
-		fmt.Println("none")
 	}
 
 	/*
