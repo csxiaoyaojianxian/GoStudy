@@ -2,7 +2,7 @@
 * @Author: csxiaoyao
 * @Date:   2017-04-23 21:31:57
 * @Last Modified by:   csxiaoyao
-* @Last Modified time: 2017-04-23 22:09:03
+* @Last Modified time: 2017-05-10 16:53:59
  */
 /**
  * map 概述、简单 map 的创建与使用、复杂 map 与键值对操作、map 与 slice 的迭代操作、元素类型为 map 的 slice、map 的间接排序
@@ -17,7 +17,7 @@ import (
 func main() {
 	/*
 	   【map】
-	   类似其它语言中的哈希表或者字典，以key-value形式存储数据
+	   类似其它语言中的哈希表或者字典，以key-value形式存储数据，无序
 	   Key必须支持==或!=比较运算类型，不可以是函数、map或slice
 	   Map查找比线性搜索快很多，但比索引访问数据慢100倍
 	   Map使用make()创建，支持 := 简写方式
@@ -41,14 +41,16 @@ func main() {
 	// 【存取】
 	// 简单map
 	m1[1] = "OK"
-	fmt.Println(m1) // map[1:OK]
-	delete(m1, 1)
+	fmt.Println(m1)    // map[1:OK]
+	delete(m1, 1)      // 删除元素：map_name,key_name
 	fmt.Println(m1[1]) //
-	// 复杂map
+	// 复杂map，多维map
 	var m3 map[int]map[int]string
 	m3 = make(map[int]map[int]string)
+
+	// 【使用第二参数判断集合中元素是否存在】
 	a, ok := m3[2][1]
-	if !ok {
+	if !ok { // ok 为 true 代表存在
 		m3[2] = make(map[int]string)
 	}
 	m3[2][1] = "GOOD"

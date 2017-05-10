@@ -2,7 +2,7 @@
 * @Author: csxiaoyao
 * @Date:   2017-04-23 18:46:01
 * @Last Modified by:   csxiaoyao
-* @Last Modified time: 2017-05-10 02:00:08
+* @Last Modified time: 2017-05-10 12:12:03
  */
 /**
  * array的定义、指向数组的指针和指针数组、数组之间的比较、使用new创建数组、多维数组、冒泡排序
@@ -28,6 +28,7 @@ func main() {
 	e := [...]int{1, 2, 3, 4, 5}    // [1 2 3 4 5]
 	f := [...]int{0: 1, 1: 2, 2: 3} // [1 2 3]
 	g := [...]int{19: 1}            // 长度为20 [0 0 … 0 1]
+	h := []int{2: 3}                // [0 0 3]
 	fmt.Println(a)
 	fmt.Println(b)
 	fmt.Println(c)
@@ -35,9 +36,10 @@ func main() {
 	fmt.Println(e)
 	fmt.Println(f)
 	fmt.Println(g)
+	fmt.Println(h)
 
 	/*
-	 	【向函数传递数组】
+		【向函数传递数组】
 	*/
 	// void myFunction(param [10]int)
 	// {
@@ -45,33 +47,15 @@ func main() {
 	// }
 	// void myFunction(param []int)
 	// {
-	// 
+	//
 	// }
-
-	/*
-		【指向数组的指针和指针数组】
-	*/
-	// 指向数组的指针
-	h := [...]int{19: 1}
-	var i *[20]int = &h
-	fmt.Println(i) // &[0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1]
-	// 指针数组
-	x, y := 1, 2
-	j := [...]*int{&x, &y}
-	fmt.Println(j) // [0xc042012318 0xc042012320]
-
-	// 使用new创建数组，返回指向数组的指针
-	k := new([10]int)
-	k[1] = 1
-	fmt.Println(k) // &[0 1 0 0 0 0 0 0 0 0]
 
 	// 【多维数组】
 	// var variable_name [SIZE1][SIZE2]...[SIZEN] variable_type
-	l := [2][3]int{
+	i := [2][3]int{
 		{1: 1},
-		{2, 2, 2}
-	}
-	fmt.Println(l) // [[0 1 0] [2 2 2]]
+		{2, 2, 2}}
+	fmt.Println(i) // [[0 1 0] [2 2 2]]
 
 	// 【冒泡排序】
 	arr := [...]int{5, 2, 6, 3, 9}
