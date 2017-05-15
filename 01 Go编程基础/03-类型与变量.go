@@ -73,6 +73,7 @@ func main() {
 
 	   【3 字符串类型】
 	   Go的字符串是由单个字节连接起来的，字节使用UTF-8编码标识Unicode文本
+	   字符串比较：strings.EqualFold(str1, str2)
 
 	   【4 派生类型】
 	   其它值类型：
