@@ -3,21 +3,43 @@
  */
 package singlechain
 
-import (
-	. "node"
-)
+// 定义节点
+type LinkTableNode struct {
+	Next *LinkTableNode
+}
 
-// // 定义节点，h为头节点
-// type Node struct {
-// 	// Data int
-// 	Cmd     string
-// 	Desc    string
-// 	Handler func()
-// 	Next    *Node
+// 定义链表
+type LinkTable struct {
+	Head      *LinkTableNode
+	Tail      *LinkTableNode
+	SumOfNode int
+}
+
+// 创建链表
+func CreateLinkTable() *LinkTable {
+	var linkTable LinkTable
+	linkTable.Head = nil
+	linkTable.Tail = nil
+	linkTable.SumOfNode = 0
+	return &linkTable
+}
+
+// 删除链表
+// func DeleteLinkTable(linkTable *LinkTable) bool {
+// 	if linkTable == nil {
+// 		return false
+// 	}
+// 	for linkTable.Head != nil {
+// 		tmp := linkTable.Head
+// 		linkTable.Head = linkTable.Head.Next
+// 		tmp = nil
+// 	}
+// 	linkTable = nil
+// 	return true
 // }
 
 // 返回第一个节点
-func GetFirst(h *Node) *Node {
+func GetFirst(h *LinkTableNode) *LinkTableNode {
 	if h.Next == nil {
 		return nil
 	}
@@ -25,7 +47,7 @@ func GetFirst(h *Node) *Node {
 }
 
 // 返回最后一个节点
-func GetLast(h *Node) *Node {
+func GetLast(h *LinkTableNode) *LinkTableNode {
 	if h.Next == nil {
 		return nil
 	}
@@ -40,7 +62,7 @@ func GetLast(h *Node) *Node {
 }
 
 // 获取长度
-func GetLength(h *Node) int {
+func GetLength(h *LinkTableNode) int {
 	var i int = 0
 	n := h
 	for n.Next != nil {
@@ -52,7 +74,7 @@ func GetLength(h *Node) int {
 
 // 插入节点
 // h:head,d:node,p:place，从0开始计算
-func Insert(h, d *Node, p int) bool {
+func Insert(h, d *LinkTableNode, p int) bool {
 	// 空链表插入到头节点后
 	if h.Next == nil {
 		h.Next = d
@@ -84,7 +106,7 @@ func Insert(h, d *Node, p int) bool {
 }
 
 // 取出指定节点
-func GetLoc(h *Node, p int) *Node {
+func GetLoc(h *LinkTableNode, p int) *LinkTableNode {
 	if p < 0 || p > GetLength(h) {
 		return nil
 	}
@@ -101,11 +123,11 @@ func GetLoc(h *Node, p int) *Node {
 }
 
 // 显示所有节点
-func GetAll(h *Node) []Node {
+func GetAll(h *LinkTableNode) []LinkTableNode {
 	if h == nil {
 		return nil
 	}
-	var allNode []Node
+	var allNode []LinkTableNode
 	n := h
 	for n.Next != nil {
 		n = n.Next
