@@ -93,6 +93,7 @@
       {{template "test"}}
     </div>
   </header>
+  <a href="/user">demo</a>
   <footer>
     <div>
       Official website:
@@ -100,6 +101,7 @@
       Contact me:
       <a href="mailto:{{.Email}}">{{.Email}}</a>
     </div>
+
   </footer>
   
   <script src="/static/js/reload.min.js"></script>

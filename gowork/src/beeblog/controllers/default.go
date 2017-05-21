@@ -8,6 +8,10 @@ type MainController struct {
 	beego.Controller
 }
 
+type HomeController struct {
+	beego.Controller
+}
+
 func (c *MainController) Get() {
 	// 变量定义 map
 	c.Data["Website"] = "beego.me"
@@ -47,4 +51,11 @@ func (c *MainController) Get() {
 
 	// 模板嵌套
 
+}
+
+func (c *HomeController) Get() {
+	c.TplName = "home.html"
+	// 变量定义 map
+	c.Data["Website"] = "www.csxiaoyao.com"
+	c.Data["Email"] = "sunjianfeng@csxiaoyao.com"
 }

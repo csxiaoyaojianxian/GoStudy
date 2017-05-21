@@ -1,0 +1,34 @@
+{{template "header"}}
+  <title>SUNSHINE STUDIO</title>
+
+</head>
+<body>
+
+<form action="/user?op=login" method="post">
+    <input type="text" name="uname" placeholder="username">
+    <input type="password" name="pwd" placeholder="password">
+    <input type="checkbox" name="autoLogin">登录
+    <input type="submit" value="submit">
+</form>
+
+<form action="/user?op=add" method="post">
+    <input type="text" name="uname" placeholder="username">
+    <input type="password" name="pwd" placeholder="password">
+    增加/修改
+    <input type="submit" value="submit">
+</form>
+
+<table>
+    显示所有用户
+    {{range .Users}}
+    <tr>
+        <td>{{.Name}}</td>
+        <td>{{.Pwd}}</td>
+        <td><a href="/user?op=del&id={{.Id}}">删除</a></td>
+    </tr>
+    {{end}}
+</table>
+
+
+</body>
+</html>

@@ -14,6 +14,7 @@ import (
 	"os"
 	"path"
 	"time"
+	"strconv"
 )
 
 const (
@@ -21,7 +22,13 @@ const (
 	_SQLITE3_DRIVER = "sqlite3"
 )
 
-type Catagory struct {
+type User struct {
+	Id              int64 // 名称为Id，类型为intXX，ORM默认为主键
+	Name            string `orm:"index"`
+	Pwd         	string
+}
+
+type Category struct {
 	Id              int64 // 名称为Id，类型为intXX，ORM默认为主键
 	Title           string
 	Created         time.Time `orm:"index"`
@@ -53,9 +60,93 @@ func RegisterDB() {
 		os.Create(_DB_NAME)
 	}
 	// 注册模型
-	orm.RegisterModel(new(Catagory), new(Topic))
+	orm.RegisterModel(new(User), new(Category), new(Topic))
 	// 注册驱动
 	// orm.RegisterDriver(_SQLITE3_DRIVER, orm.DR_Sqlite)
 	// 注册默认数据库，必须有一个数据库叫 default
 	orm.RegisterDataBase("default", _SQLITE3_DRIVER, _DB_NAME, 10)
+}
+
+func IsUserExist(name string) error {
+	o := orm.NewOrm()
+	// 新建一个对象用于判断是否已经存在
+	user := &User{Name:name}
+	// 查询数据库
+	qs := o.QueryTable("user")
+	err := qs.Filter("Name",name).One(user)
+	// 判断是否已经存在
+	// 存在
+	if err == nil{
+		return nil
+	}
+	// 不存在
+	return err
+}
+
+func AddUser(name string, pwd string) error {
+	o := orm.NewOrm()
+	// 新建一个对象
+	user := &User{Name:name,Pwd:pwd}
+	// 存在
+	if IsUserExist(name) == nil {
+		return nil
+	}
+	// 不存在
+	_, err := o.Insert(user)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func DelUser(id string) error {
+	uid, err := strconv.ParseInt(id,10,64)
+	if err != nil {
+		return err
+	}
+	o := orm.NewOrm()
+
+	user := &User{Id:uid}
+	_,err = o.Delete(user)
+	return err
+}
+
+func UpdateUser(id int64, name string, pwd string) error {
+	o := orm.NewOrm()
+	// 新建一个对象
+	user := &User{Id:id,Name:name,Pwd:pwd}
+	// 存在
+	if IsUserExist(name) == nil {
+		_, err := o.Update(user)
+		if err != nil {
+			return err
+		}
+		return nil
+	}
+	// 不存在
+	return nil
+}
+
+func GetUserId(name string) *User{
+	o := orm.NewOrm()
+	// 新建一个对象用于判断是否已经存在
+	user := &User{Name:name}
+	// 查询数据库
+	qs := o.QueryTable("user")
+	err := qs.Filter("Name",name).One(user)
+	// 判断是否已经存在
+	// 存在
+	if err == nil{
+		return user
+	}
+	// 不存在
+	return user
+}
+
+func GerAllUsers() ([]*User,error) {
+	o := orm.NewOrm()
+	users := make([]*User,0)
+	qs := o.QueryTable("user")
+	_,err := qs.All(&users)
+	return users,err
 }

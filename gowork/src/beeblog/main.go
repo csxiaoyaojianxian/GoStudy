@@ -19,5 +19,9 @@ func main() {
 	orm.RunSyncdb("default", false, true)
 
 	beego.Router("/", &controllers.MainController{})
+
+	beego.Router("/home", &controllers.HomeController{})
+	beego.Router("/user", &controllers.UserController{})
+
 	beego.Run()
 }
