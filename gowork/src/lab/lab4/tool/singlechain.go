@@ -3,6 +3,21 @@
  */
 package tool
 
+// 定义链表接口
+type ILinkTable interface {
+	//DeleteLinkTable()
+	AddNode(ltn *LinkTableNode) bool
+	DelNode(ltn *LinkTableNode) bool
+	GetHead() *LinkTableNode
+	GetTail() *LinkTableNode
+	GetLength() int
+	GetNextNode(ltn *LinkTableNode) *LinkTableNode
+	InsertLocNode(ltn *LinkTableNode, p int) bool
+	DeleteLocNode(p int) bool
+	GetLocNode(p int) *LinkTableNode
+	GetAllNode() []*LinkTableNode
+	SearchNode(condition func(*LinkTableNode, string) bool, args string) *LinkTableNode
+}
 
 // 定义节点，分为数据区和指针区
 type LinkTableNode struct {
@@ -27,7 +42,7 @@ func CreateLinkTable() *LinkTable {
 }
 
 // 删除链表，GO自动GC
-// func DeleteLinkTable(lt *LinkTable) bool {
+// func (lt *LinkTable) DeleteLinkTable() bool {
 // 	if lt == nil {
 // 		return false
 // 	}
@@ -47,7 +62,7 @@ func CreateLinkTable() *LinkTable {
 // }
 
 // 追加节点
-func AddNode(lt *LinkTable, ltn *LinkTableNode) bool{
+func (lt *LinkTable) AddNode(ltn *LinkTableNode) bool{
 	if lt == nil || ltn == nil {
 		return false
 	}
@@ -67,7 +82,7 @@ func AddNode(lt *LinkTable, ltn *LinkTableNode) bool{
 }
 
 // 删除节点
-func DelNode(lt *LinkTable, ltn *LinkTableNode) bool {
+func (lt *LinkTable) DelNode(ltn *LinkTableNode) bool {
 	if lt == nil || ltn  == nil {
 		return false
 	}
@@ -99,7 +114,7 @@ func DelNode(lt *LinkTable, ltn *LinkTableNode) bool {
 }
 
 // 返回头节点
-func GetHead(lt *LinkTable) *LinkTableNode {
+func (lt *LinkTable) GetHead() *LinkTableNode {
 	if lt == nil || lt.Head == nil{
 		return nil
 	}
@@ -107,7 +122,7 @@ func GetHead(lt *LinkTable) *LinkTableNode {
 }
 
 // 返回尾节点
-func GetTail(lt *LinkTable) *LinkTableNode {
+func (lt *LinkTable) GetTail() *LinkTableNode {
 	if lt == nil || lt.Tail == nil{
 		return nil
 	}
@@ -115,12 +130,12 @@ func GetTail(lt *LinkTable) *LinkTableNode {
 }
 
 // 获取长度
-func GetLength(lt *LinkTable) int {
+func (lt *LinkTable) GetLength() int {
 	return lt.SumOfNode
 }
 
 // 返回下一个节点
-func GetNextNode(lt *LinkTable, ltn *LinkTableNode) *LinkTableNode{
+func (lt *LinkTable) GetNextNode(ltn *LinkTableNode) *LinkTableNode{
 	if lt == nil || ltn == nil {
 		return nil
 	}
@@ -135,8 +150,8 @@ func GetNextNode(lt *LinkTable, ltn *LinkTableNode) *LinkTableNode{
 }
 
 // 指定位置插入节点
-func InsertLocNode(lt *LinkTable, ltn *LinkTableNode, p int) bool {
-	if lt == nil || ltn == nil || p < 0 || p > GetLength(lt)+1 {
+func (lt *LinkTable) InsertLocNode(ltn *LinkTableNode, p int) bool {
+	if lt == nil || ltn == nil || p < 0 || p > lt.GetLength()+1 {
 		return false
 	}
 
@@ -150,7 +165,7 @@ func InsertLocNode(lt *LinkTable, ltn *LinkTableNode, p int) bool {
 		ltn.Next = lt.Head
 		lt.Head = ltn
 		lt.SumOfNode++
-	}else if p == GetLength(lt)+1 {
+	}else if p == lt.GetLength()+1 {
 		// 非空链表，插入到最后一位
 		ltn.Next = nil
 		lt.Tail.Next = ltn
@@ -158,7 +173,7 @@ func InsertLocNode(lt *LinkTable, ltn *LinkTableNode, p int) bool {
 		lt.SumOfNode++
 
 	}else{
-		tempNode := GetLocNode(lt,p-1)
+		tempNode := lt.GetLocNode(p-1)
 		if tempNode == nil {
 			return false
 		}
@@ -170,8 +185,8 @@ func InsertLocNode(lt *LinkTable, ltn *LinkTableNode, p int) bool {
 }
 
 // 指定位置删除节点
-func DeleteLocNode(lt *LinkTable, p int) bool {
-	if lt == nil || p < 0 || p > GetLength(lt) || lt.SumOfNode <= 0 {
+func (lt *LinkTable) DeleteLocNode(p int) bool {
+	if lt == nil || p < 0 || p > lt.GetLength() || lt.SumOfNode <= 0 {
 		return false
 	}
 
@@ -184,12 +199,12 @@ func DeleteLocNode(lt *LinkTable, p int) bool {
 		// 删除头节点
 		lt.Head = lt.Head.Next
 		lt.SumOfNode--
-	}else if p == GetLength(lt) {
+	}else if p == lt.GetLength() {
 		// 删除尾节点
-		lt.Tail = GetLocNode(lt,p-1)
+		lt.Tail = lt.GetLocNode(p-1)
 		lt.SumOfNode--
 	}else{
-		tempNode := GetLocNode(lt,p-1)
+		tempNode := lt.GetLocNode(p-1)
 		if tempNode == nil {
 			return false
 		}
@@ -200,8 +215,8 @@ func DeleteLocNode(lt *LinkTable, p int) bool {
 }
 
 // 指定位置取出节点
-func GetLocNode(lt *LinkTable, p int) *LinkTableNode {
-	if lt == nil || p < 0 || p > GetLength(lt) {
+func (lt *LinkTable) GetLocNode(p int) *LinkTableNode {
+	if lt == nil || p < 0 || p > lt.GetLength() {
 		return nil
 	}
 	var i = 0
@@ -217,7 +232,7 @@ func GetLocNode(lt *LinkTable, p int) *LinkTableNode {
 }
 
 // 获取所有节点
-func GetAllNode(lt *LinkTable) []*LinkTableNode {
+func (lt *LinkTable) GetAllNode() []*LinkTableNode {
 	if lt == nil {
 		return nil
 	}
@@ -228,4 +243,19 @@ func GetAllNode(lt *LinkTable) []*LinkTableNode {
 		tempNode = tempNode.Next
 	}
 	return allNode
+}
+
+// 利用回调函数查找节点
+func (lt *LinkTable) SearchNode(condition func(*LinkTableNode, string) bool, args string) *LinkTableNode {
+	if args == "" || lt == nil {
+		return nil
+	}
+	tempNode := lt.Head
+	for tempNode != nil {
+		if condition(tempNode, args) == true {
+			return tempNode
+		}
+		tempNode = tempNode.Next
+	}
+	return nil
 }

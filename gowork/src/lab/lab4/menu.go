@@ -12,8 +12,10 @@ import (
 const userFile = "menu.go"
 
 // 定义全局变量
-var lt *LinkTable
+var initLt *LinkTable
 var cmd []string
+// 接口
+var lt ILinkTable
 
 /**
  * 指令内容初始化
@@ -21,35 +23,38 @@ var cmd []string
 func initMenu(lt *LinkTable) {
 	tempDataNode1 := Node{"help", "This is a help cmd.", Help}
 	tempNode1 := LinkTableNode{&tempDataNode1, nil}
-	AddNode(lt,&tempNode1)
+	lt.AddNode(&tempNode1)
 
 	tempDataNode2 := Node{"version", "menu program v2.0.", nil}
 	tempNode2 := LinkTableNode{&tempDataNode2, nil}
-	AddNode(lt,&tempNode2)
+	lt.AddNode(&tempNode2)
 
 	tempDataNode3 := Node{"print", "Print the menu.go.", PrintCode}
 	tempNode3 := LinkTableNode{&tempDataNode3, nil}
-	AddNode(lt,&tempNode3)
+	lt.AddNode(&tempNode3)
 
 	tempDataNode4 := Node{"addcmd", "Add a cmd.", AddCmd}
 	tempNode4 := LinkTableNode{&tempDataNode4, nil}
-	AddNode(lt,&tempNode4)
+	lt.AddNode(&tempNode4)
 
 	tempDataNode5 := Node{"delcmd", "Delete a cmd.", DelCmd}
 	tempNode5 := LinkTableNode{&tempDataNode5, nil}
-	AddNode(lt,&tempNode5)
+	lt.AddNode(&tempNode5)
 
 	tempDataNode6 := Node{"quit", "Quit form menu.", Quit}
 	tempNode6 := LinkTableNode{&tempDataNode6, nil}
-	AddNode(lt,&tempNode6)
+	lt.AddNode(&tempNode6)
 }
 
 
 func main() {
+
 	// 初始化链表
-	lt = CreateLinkTable()
+	initLt= CreateLinkTable()
 	// 初始化指令内容
-	initMenu(lt)
+	initMenu(initLt)
+
+	lt = initLt
 
 	var cmdStr string
 	Help()
@@ -62,12 +67,12 @@ func main() {
 			// 默认判断输入的是序号，不能转换成整型则认为是 cmd
 			order, _ := strconv.Atoi(cmd[0])
 			var result *LinkTableNode
-			if order > 0 && order <= lt.SumOfNode {
+			if order > 0 && order <= lt.GetLength() {
 				// 输入的是序号
-				result = GetLocNode(lt, order)
+				result = lt.GetLocNode(order)
 			} else {
 				// 输入的是指令
-				result = FindCmd(lt, strings.ToLower(cmd[0]))
+				result = lt.SearchNode(searchCondition, strings.ToLower(cmd[0]))
 			}
 			// 执行
 			if result != nil {
@@ -81,6 +86,17 @@ func main() {
 			}
 		}
 	}
+}
+
+// 查找判定条件
+func searchCondition(ltn *LinkTableNode, args string) bool{
+	if args == "" || ltn == nil {
+		return false
+	}
+	if strings.EqualFold(args, ltn.Data.Cmd) {
+		return true
+	}
+	return false
 }
 
 // 读取一行数据
@@ -103,7 +119,7 @@ func ScanLine() string {
 // 打印所有 cmd
 func showCmd(lt *LinkTable) {
 	// 获取 cmd 数组
-	cmd := GetAllNode(lt)
+	cmd := lt.GetAllNode()
 	// 循环遍历输出
 	fmt.Println("******************** menu ********************")
 	for i := 0; i < len(cmd); i++ {
@@ -112,27 +128,12 @@ func showCmd(lt *LinkTable) {
 	fmt.Println("**********************************************")
 }
 
-// 根据 cmd 查找节点，FindCmd 不具有通用性，置于 menu.go
-func FindCmd(lt *LinkTable, cmd string) *LinkTableNode {
-	if cmd == "" || lt == nil {
-		return nil
-	}
-	tempNode := lt.Head
-	for tempNode != nil {
-		if strings.EqualFold(cmd, tempNode.Data.Cmd) {
-			return tempNode
-		}
-		tempNode = tempNode.Next
-	}
-	return nil
-}
-
 /**
  * 指令函数
  */
 // 打印菜单
 var Help = func() {
-	showCmd(lt)
+	showCmd(initLt)
 }
 // 退出
 var Quit = func() {
@@ -167,18 +168,18 @@ var AddCmd = func(){
 	} else if length == 2 {
 		tempDataNode := Node{cmd[1], "No Description", nil}
 		tempNode := LinkTableNode{&tempDataNode, nil}
-		AddNode(lt,&tempNode)
+		lt.AddNode(&tempNode)
 		Help()
 	} else if length == 3 {
 		tempDataNode := Node{cmd[1], cmd[2], nil}
 		tempNode := LinkTableNode{&tempDataNode, nil}
-		AddNode(lt,&tempNode)
+		lt.AddNode(&tempNode)
 		Help()
 	} else if length == 4 {
 		tempDataNode := Node{cmd[1], cmd[2], nil}
 		tempNode := LinkTableNode{&tempDataNode, nil}
 		p,_ := strconv.Atoi(cmd[3])
-		InsertLocNode(lt,&tempNode,p)
+		lt.InsertLocNode(&tempNode,p)
 		Help()
 	} else if length > 4{
 		fmt.Println("too many arguments")
@@ -195,13 +196,13 @@ var DelCmd = func(){
 	} else if length == 2 {
 		order, _ := strconv.Atoi(cmd[1])
 		var result *LinkTableNode
-		if order > 0 && order <= lt.SumOfNode {
+		if order > 0 && order <= lt.GetLength() {
 			// 输入的是序号
-			DeleteLocNode(lt,order)
+			lt.DeleteLocNode(order)
 		} else {
 			// 输入的是指令
-			result = FindCmd(lt,cmd[1])
-			DelNode(lt,result)
+			result = lt.SearchNode(searchCondition,cmd[1])
+			lt.DelNode(result)
 		}
 		Help()
 	} else if length > 2 {
