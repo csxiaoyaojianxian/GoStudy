@@ -1,10 +1,9 @@
-package node
+package tool
 
-// 定义节点，h为头节点
+// 定义数据节点
 type Node struct {
 	// Data int
 	Cmd     string
 	Desc    string
 	Handler func()
-	Next    *Node
 }
