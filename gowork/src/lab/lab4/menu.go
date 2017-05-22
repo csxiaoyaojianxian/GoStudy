@@ -4,8 +4,8 @@ import (
 	"fmt"
 	. "lab/lab4/tool"
 	"os"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 // 初始化常量，指令数量
@@ -14,6 +14,7 @@ const userFile = "menu.go"
 // 定义全局变量
 var initLt *LinkTable
 var cmd []string
+
 // 接口
 var lt ILinkTable
 
@@ -25,7 +26,7 @@ func initMenu(lt *LinkTable) {
 	tempNode1 := LinkTableNode{&tempDataNode1, nil}
 	lt.AddNode(&tempNode1)
 
-	tempDataNode2 := Node{"version", "menu program v2.0.", nil}
+	tempDataNode2 := Node{"version", "menu program v2.8.", nil}
 	tempNode2 := LinkTableNode{&tempDataNode2, nil}
 	lt.AddNode(&tempNode2)
 
@@ -46,11 +47,10 @@ func initMenu(lt *LinkTable) {
 	lt.AddNode(&tempNode6)
 }
 
-
 func main() {
 
 	// 初始化链表
-	initLt= CreateLinkTable()
+	initLt = CreateLinkTable()
 	// 初始化指令内容
 	initMenu(initLt)
 
@@ -89,7 +89,7 @@ func main() {
 }
 
 // 查找判定条件
-func searchCondition(ltn *LinkTableNode, args string) bool{
+func searchCondition(ltn *LinkTableNode, args string) bool {
 	if args == "" || ltn == nil {
 		return false
 	}
@@ -104,13 +104,13 @@ func ScanLine() string {
 	var c byte
 	var err error
 	var b []byte
-	for ; err == nil; {
+	for err == nil {
 		_, err = fmt.Scanf("%c", &c)
 
 		if c != '\n' {
 			b = append(b, c)
 		} else {
-			break;
+			break
 		}
 	}
 	return string(b)
@@ -135,10 +135,12 @@ func showCmd(lt *LinkTable) {
 var Help = func() {
 	showCmd(initLt)
 }
+
 // 退出
 var Quit = func() {
 	os.Exit(0)
 }
+
 // 打印代码
 var PrintCode = func() {
 	fin, err := os.Open(userFile)
@@ -156,12 +158,13 @@ var PrintCode = func() {
 		os.Stdout.Write(buf[:n])
 	}
 }
+
 // 添加指令
 // 格式:
 // cmd> addcmd PrintName
 // cmd> addcmd PrintName sunjianfeng
 // cmd> addcmd PrintName sunjianfeng 3
-var AddCmd = func(){
+var AddCmd = func() {
 	length := len(cmd)
 	if length == 1 {
 		fmt.Println("no arguments")
@@ -178,18 +181,19 @@ var AddCmd = func(){
 	} else if length == 4 {
 		tempDataNode := Node{cmd[1], cmd[2], nil}
 		tempNode := LinkTableNode{&tempDataNode, nil}
-		p,_ := strconv.Atoi(cmd[3])
-		lt.InsertLocNode(&tempNode,p)
+		p, _ := strconv.Atoi(cmd[3])
+		lt.InsertLocNode(&tempNode, p)
 		Help()
-	} else if length > 4{
+	} else if length > 4 {
 		fmt.Println("too many arguments")
 	}
 }
+
 // 删除指令
 // 格式：
 // cmd> delcmd printname
 // cmd> delcmd 4
-var DelCmd = func(){
+var DelCmd = func() {
 	length := len(cmd)
 	if length == 1 {
 		fmt.Println("no arguments")
@@ -201,7 +205,7 @@ var DelCmd = func(){
 			lt.DeleteLocNode(order)
 		} else {
 			// 输入的是指令
-			result = lt.SearchNode(searchCondition,cmd[1])
+			result = lt.SearchNode(searchCondition, cmd[1])
 			lt.DelNode(result)
 		}
 		Help()
